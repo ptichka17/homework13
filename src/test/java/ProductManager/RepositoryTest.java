@@ -50,4 +50,37 @@ class RepositoryTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
+    @Test
+    public void testNotFoundException() {
+        Repository repo = new Repository();
+        Book book1 = new Book(1,"The Great Gatsby", 300, "Francis Scott Fitzgerald");
+        Book book2 = new Book(2,"Island", 400, "Aldous Huxley");
+        Book book3 = new Book(3,"Lord of the Flies", 500, "William Golding");
+
+        repo.add(book1);
+        repo.add(book2);
+        repo.add(book3);
+        repo.removeById(4);
+        Product[] actual = repo.findAll();
+        Product[] expected = {book1, book2, book3};
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testRemoveWhenIdNotExisted() {
+        Repository repo = new Repository();
+        Book book1 = new Book(1,"The Great Gatsby", 300, "Francis Scott Fitzgerald");
+        Book book2 = new Book(2,"Island", 400, "Aldous Huxley");
+        Book book3 = new Book(3,"Lord of the Flies", 500, "William Golding");
+
+        repo.add(book1);
+        repo.add(book2);
+        repo.add(book3);
+
+        Assertions.assertThrows(NotFoundException.class,
+                () -> repo.removeById(4)
+                );
+    }
+
 }
